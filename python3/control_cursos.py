@@ -18,14 +18,15 @@ def login():
 
 def showLocationForm():
 	locationForm = location.LocationMainForm(mainForm, pgConnection)
+	locationForm.grab_set()
 
 pgConnection = login()
 
 root = tk.Tk()
 mainForm = bfaform.BaseForm(root, title = "Control de Cursos", icon = "./img/curso.png")
 
-administrationMenu = tk.Menu(mainForm.mainMenu, tearoff = 0)
+administrationMenu = tk.Menu(mainForm._mainMenu, tearoff = 0)
 administrationMenu.add_command(label = "Gestionar locaciones", command = showLocationForm)
-mainForm.mainMenu.add_cascade(label = "Administración", menu = administrationMenu)
+mainForm._mainMenu.add_cascade(label = "Administración", menu = administrationMenu)
 
 root.mainloop()

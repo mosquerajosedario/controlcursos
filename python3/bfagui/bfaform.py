@@ -61,8 +61,8 @@ class BaseForm(tk.Frame):
 		image = tk.PhotoImage(file = icon)
 		self.master.tk.call('wm', 'iconphoto', self.master._w, image)
 		
-		self.mainMenu = bfamenu.CustomMenu(self)
-		self.master.config(menu = self.mainMenu)
+		self._mainMenu = bfamenu.CustomMenu(self)
+		self.master.config(menu = self._mainMenu)
 
 class CustomForm(tk.Toplevel):
 	def __init__(self, master, title = "BFA", geometry = "400x200", icon = str(os.path.dirname(__file__)) + "/img/bfa.png"):
@@ -72,5 +72,5 @@ class CustomForm(tk.Toplevel):
 		image = tk.PhotoImage(file = icon)
 		self.tk.call('wm', 'iconphoto', self._w, image)
 		
-		self.mainMenu = bfamenu.CustomMenu(self)
-		self.config(menu = self.mainMenu)
+		self._mainMenu = bfamenu.CustomMenu(self)
+		self.config(menu = self._mainMenu)
