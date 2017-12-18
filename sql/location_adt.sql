@@ -177,9 +177,45 @@ $$ LANGUAGE PLpgSQL VOLATILE STRICT
 SET search_path FROM CURRENT;
 
 
+CREATE OR REPLACE FUNCTION location_gui_update_location (
+	p_location               jsonb
+) RETURNS void AS $$
+DECLARE 
+	v_location_id            integer;
+	v_name                   text;
+	v_address                text;
+	v_phone                  text;
+	v_email                  text;
+BEGIN 
+	IF NOT p_location ? 'name' OR NOT p_location ? 'address' OR 
+		NOT p_location ? 'phone' OR NOT p_location ? 'email' 
+		OR NOT p_location ? 'location_id'
+	THEN
+		RAISE EXCEPTION 'JSON DE LOCACIÓN INVÁLIDO';
+	END IF;
+	
+	v_location_id := (p_location ->> 'location_id')::text::integer;
+	v_name := p_location ->> 'name';
+	v_address := p_location ->> 'address';
+	v_phone := p_location ->> 'phone';
+	v_email := p_location ->> 'email';
+	
+	IF NOT EXISTS (SELECT 1 FROM location WHERE location_id = v_location_id)
+	THEN 
+		RAISE EXCEPTION 'LA LOCACIÓN INDICADA NO EXISTE';
+	END IF;
+	
+	UPDATE location SET (name, address, phone, email) = (v_name, v_address, v_phone, v_email)
+		WHERE location_id = v_location_id;
+END;
+$$ LANGUAGE PLpgSQL VOLATILE STRICT
+SET search_path FROM CURRENT;
+
+
 CREATE OR REPLACE FUNCTION location_gui_list_locations()
 RETURNS json AS 
 $$
-	SELECT array_to_json(array_agg(row_to_json(x))) FROM (SELECT * FROM location) x;
+	SELECT array_to_json(array_agg(row_to_json(x))) 
+		FROM (SELECT * FROM location ORDER BY name) x;
 $$ LANGUAGE SQL STABLE STRICT
 SET search_path FROM CURRENT;
