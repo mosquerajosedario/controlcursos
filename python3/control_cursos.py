@@ -17,8 +17,9 @@ def login():
 			print("Error de inicio de sesión")
 
 def showLocationForm():
-	locationForm = location.LocationMainForm(mainForm, pgConnection)
+	locationForm = location.LocationMainForm(mainForm, pgConnection, behavior = "main")
 	locationForm.grab_set()
+	mainForm.wait_window(locationForm)
 
 pgConnection = login()
 

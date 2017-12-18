@@ -6,7 +6,8 @@ from bfagui import bfabutton
 import json
 
 class LocationMainForm(bfaform.CustomForm):
-	def __init__(self, master, pgConnection):
+	def __init__(self, master, pgConnection, behavior = "main"):
+		self.__behavior = behavior
 		self.__pgConnection = pgConnection
 		
 		bfaform.CustomForm.__init__(self, master, "Administración de Locaciones", "690x130", "./img/locacion.png")
@@ -36,7 +37,17 @@ class LocationMainForm(bfaform.CustomForm):
 		
 		self._mainMenu.add_cascade(label = "Locaciones", menu = self.__locationMenu)
 		
+		if self.__behavior == "search":
+			self._mainMenu.destroy()
+			self.__selectedLocation = tk.StringVar()
+		
 		self.updateGrid()
+	
+	def get_selectedLocation(self):
+		try:
+			return self.__selectedLocation.get()
+		except:
+			return None
 	
 	def onDoubleClick(self, event):
 		item = self.__dbGrid.selection()
@@ -45,7 +56,11 @@ class LocationMainForm(bfaform.CustomForm):
 			selectedLocation = self.__dbGrid.set(item)
 			selectedLocation["location_id"] = self.__dbGrid.item(item,"text")
 			
-			self.updateLocation(selectedLocation)
+			if self.__behavior == "main":
+				self.updateLocation(selectedLocation)
+			elif self.__behavior == "search":
+				self.__selectedLocation.set(selectedLocation)
+				self.destroy()
 	
 	def updateLocation(self, selectedLocation):
 		updateLocationForm = EditLocationForm(self, self.__pgConnection, operation = "update")

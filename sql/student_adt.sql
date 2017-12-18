@@ -5,7 +5,7 @@ CREATE TABLE student (
 	address                  text,
 	email                    text NOT NULL,
 	phone                    text NOT NULL,
-	status                   text NOT NULL CHECK (status IN('ACTIVO', 'INACTIVO'))
+	status                   text NOT NULL CHECK (status IN('ACTIVO', 'INACTIVO', 'EGRESADO'))
 );
 
 
@@ -22,7 +22,7 @@ BEGIN
 	IF NOT EXISTS (SELECT 1 FROM student WHERE dni = p_dni)
 	THEN
 		INSERT INTO student VALUES
-			(p_dni, p_name, p_surname, p_birthday, p_address, p_email, p_phone, "ACTIVO")
+			(p_dni, p_name, p_surname, p_birthday, p_address, p_email, p_phone, 'ACTIVO')
 		RETURNING *;
 	ELSE 
 		RAISE EXCEPTION 'YA EXISTE UN ALUMNO CON EL DNI %', p_dni;
