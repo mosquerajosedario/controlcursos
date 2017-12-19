@@ -15,6 +15,7 @@ class PGConnection(object):
 			tmpConnection = psycopg2.connect(self.connectionString)
 			tmpConnection.close()
 		except psycopg2.OperationalError as e:
+			print(format(e))
 			raise ValueError(format(e))
 		
 	def execute(self, queryString):
@@ -26,6 +27,7 @@ class PGConnection(object):
 			connection.close()
 		except psycopg2.Error as e:
 			print (e.pgerror)
+			raise ValueError(format(e))
 	
 	def query(self, queryString):
 		try:
@@ -38,6 +40,7 @@ class PGConnection(object):
 			return rows
 		except psycopg2.Error as e:
 			print (e.pgerror)
+			raise ValueError(format(e))
 	
 	def queryJson(self, queryString):
 		try:
@@ -54,6 +57,7 @@ class PGConnection(object):
 		
 		except psycopg2.Error as e:
 			print (e.pgerror)
+			raise ValueError(format(e))
 			
 	def prueba(self):
 		print(self.connectionString)

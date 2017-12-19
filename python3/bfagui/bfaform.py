@@ -63,6 +63,7 @@ class BaseForm(tk.Frame):
 		
 		self._mainMenu = bfamenu.CustomMenu(self)
 		self.master.config(menu = self._mainMenu)
+		centerForm(self.master)
 
 class CustomForm(tk.Toplevel):
 	def __init__(self, master, title = "BFA", geometry = "400x200", icon = str(os.path.dirname(__file__)) + "/img/bfa.png"):
@@ -74,3 +75,5 @@ class CustomForm(tk.Toplevel):
 		
 		self._mainMenu = bfamenu.CustomMenu(self)
 		self.config(menu = self._mainMenu)
+		
+		centerForm(self)
