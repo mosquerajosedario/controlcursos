@@ -1,15 +1,15 @@
-CREATE TABLE course (
-	course_id                text PRIMARY KEY,
-	begin_date               date NOT NULL,
-	end_date                 date,
-	location_id              integer NOT NULL REFERENCES location(location_id),
-	schedule                 text NOT NULL,
-	status                   text NOT NULL CHECK(status IN('INSCRIBIENDO ALUMNOS', 
-	                           'EN CURSO', 'FINALIZADO', 'CANCELADO')) 
-	                           DEFAULT 'INSCRIBIENDO ALUMNOS'
-);
 
+-----------------------------------------
+-- PACKAGE: BACKEND -- CLASS: Course --
+-----------------------------------------
 
+------------------
+-- MEMBER METHODS
+------------------
+
+------------------
+-- CONSTRUCTOR
+------------------
 CREATE OR REPLACE FUNCTION course (
 	IN p_course_id           text,
 	IN p_begin_date          date,
@@ -32,6 +32,11 @@ BEGIN
 END;
 $$ LANGUAGE PLpgSQL VOLATILE STRICT
 SET search_path FROM CURRENT;
+
+
+------------------
+-- DESTRUCTOR
+------------------
 
 
 CREATE OR REPLACE FUNCTION course_identify_by_course_id (
