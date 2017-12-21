@@ -21,6 +21,9 @@ def showLocationForm():
 	locationForm.grab_set()
 	mainForm.wait_window(locationForm)
 
+def showCourseForm():
+	pass
+
 pgConnection = login()
 
 root = tk.Tk()
@@ -28,6 +31,7 @@ mainForm = bfaform.BaseForm(root, title = "Control de Cursos", icon = "./img/cur
 
 administrationMenu = tk.Menu(mainForm._mainMenu, tearoff = 0)
 administrationMenu.add_command(label = "Gestionar locaciones", command = showLocationForm)
+administrationMenu.add_command(label = "Gestionar cursos", command = showCourseForm)
 mainForm._mainMenu.add_cascade(label = "Administración", menu = administrationMenu)
 
 root.mainloop()
