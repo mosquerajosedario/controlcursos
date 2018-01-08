@@ -134,3 +134,10 @@ BEGIN
 END;
 $$ LANGUAGE PLpgSQL STABLE STRICT
 SET search_path FROM CURRENT;
+------------------------------------------------
+-- PACKAGE: GUI -- REFERENCED CLASS: Course   --
+------------------------------------------------
+
+------------------
+-- HELPERS
+------------------

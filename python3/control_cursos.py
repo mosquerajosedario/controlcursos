@@ -5,6 +5,7 @@ from tkinter import messagebox as mb
 from bfadbdriver import pgdriver
 from bfagui import bfaform
 import location
+import course
 
 def login():
 	while True:
@@ -22,7 +23,9 @@ def showLocationForm():
 	mainForm.wait_window(locationForm)
 
 def showCourseForm():
-	pass
+	courseForm = course.CourseMainForm(mainForm, pgConnection)
+	courseForm.grab_set()
+	mainForm.wait_window(courseForm)
 
 pgConnection = login()
 

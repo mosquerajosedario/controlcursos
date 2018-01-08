@@ -7,6 +7,8 @@
 ---------------------------
 -- SETUP AND CONFIGURATIONS
 ---------------------------
+CREATE TYPE subject_name AS ENUM ('Técnicas de Programación', 'Desarrollo de Software', 
+	'Programación Orientada a Objetos', 'Base de Datos');
 
 -- EXPRESIÓN REGULAR PARA VALIDAR EL AGENDAMIETO. EL FORMATO VÁLIDO ES
 -- L POR LUNES
@@ -34,4 +36,4 @@ SELECT regular_expression (
 SELECT regular_expression ( 
 	'course_id', 
 	'^[0-9]+["\/"]{1}[0-9]+$'
-)
+);

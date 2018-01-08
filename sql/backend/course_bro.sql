@@ -39,3 +39,5 @@ CREATE OR REPLACE VIEW vw_course_location_association AS
 	FROM 
 		course_location_association;
 
+CREATE OR REPLACE RULE prevent_insert_to_subject AS
+	ON INSERT TO subject DO INSTEAD NOTHING;

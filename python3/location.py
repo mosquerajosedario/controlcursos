@@ -53,7 +53,7 @@ class LocationMainForm(bfaform.CustomForm):
 		
 		if location["location_id"] != None:
 			try:
-				queryString = "SELECT location_gui_destroy_location('" + json.dumps(location) + "')"
+				queryString = "SELECT gui_location_destroy_location('" + json.dumps(location) + "')"
 				self.__pgConnection.execute(queryString)
 				
 				mb.showinfo("Eliminando Locación...", "Eliminación de locación exitosa")
@@ -100,9 +100,9 @@ class LocationMainForm(bfaform.CustomForm):
 		
 	def updateGrid(self):
 		if self.__behavior == "main":
-			locations = self.__pgConnection.queryJson("SELECT location_gui_list_all_locations()")
+			locations = self.__pgConnection.queryJson("SELECT gui_location_list_all_locations()")
 		elif self.__behavior == "search":
-			locations = self.__pgConnection.queryJson("SELECT location_gui_list_enabled_locations()")
+			locations = self.__pgConnection.queryJson("SELECT gui_location_list_enabled_locations()")
 		
 		self.__dbGrid.delete(*self.__dbGrid.get_children())
 		
@@ -227,7 +227,7 @@ class EditLocationForm(bfaform.CustomForm):
 		else:
 			location_json = json.dumps(location , ensure_ascii=False)
 			
-			queryString = "SELECT location_gui_add_location('" + location_json + "')"
+			queryString = "SELECT gui_location_add_location('" + location_json + "')"
 			
 			try:
 				result = self.__pgConnection.queryJson(queryString)
@@ -248,7 +248,7 @@ class EditLocationForm(bfaform.CustomForm):
 		
 		location_json = json.dumps(location , ensure_ascii=False)
 		
-		queryString = "SELECT location_gui_update_location('" + location_json + "')"
+		queryString = "SELECT gui_location_update_location('" + location_json + "')"
 		
 		try:
 			self.__pgConnection.execute(queryString)
