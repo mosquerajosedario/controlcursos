@@ -9,6 +9,9 @@ class CancelButton(tk.Button):
 			quit()
 		else:
 			self.master.destroy()
+	
+	def getWidth(self):
+		return 80
 
 class AddButton(tk.Button):
 	def __init__(self, master):

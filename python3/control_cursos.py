@@ -23,7 +23,7 @@ def showLocationForm():
 	mainForm.wait_window(locationForm)
 
 def showCourseForm():
-	courseForm = course.CourseMainForm(mainForm, pgConnection)
+	courseForm = course.CourseMainForm(mainForm, pgConnection, behavior = "main")
 	courseForm.grab_set()
 	mainForm.wait_window(courseForm)
 

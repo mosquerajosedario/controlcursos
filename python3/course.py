@@ -6,27 +6,38 @@ from bfagui import bfaform
 from bfagui import bfabutton
 import json
 
-class CourseMainForm(bfaform.CustomForm):
+class CourseMainForm(bfaform.GridForm):
 	def __init__(self, master, pgConnection, behavior = "main"):
-		self.__behavior = behavior
-		self.__pgConnection = pgConnection
+		querys = {"mainQuery":"gui_course_list_all_courses()", "searchQuery":"gui_course_list_enabled_locations()"}
+		setup = {"title":"Administración de Cursos", "formHeight":200, "icon":"./img/curso.png", "querys":querys}
+		gridColumns = {"Comisión":100, "Fecha Inicio":120, "Fecha Fin":120, "Horarios":250, "Locación":250, "Estado":200}
 		
-		bfaform.CustomForm.__init__(self, master, "Administración de Cursos", "1065x130", "./img/curso.png")
+		bfaform.GridForm.__init__(self, master, pgConnection, setup, gridColumns, behavior)
 		
-		self.__dbGrid = ttk.Treeview(self, height = 5)
-		self.__dbGrid.place(x = 5, y = 5)
-		self.__verticalScrollBar = ttk.Scrollbar(self, orient='vertical', command = self.__dbGrid.yview)
-		self.__verticalScrollBar.place(x = 1045, y = 5, height = 120)
-		self.__dbGrid["columns"]=("begin_date", "end_date", "schedule", "location", "status")
-		self.__dbGrid.column("#0", width = 100)
-		self.__dbGrid.heading("#0", text = "Comisión")
-		self.__dbGrid.column("#1", width = 120)
-		self.__dbGrid.heading("#1", text = "Fecha Inicio")
-		self.__dbGrid.column("#2", width = 120)
-		self.__dbGrid.heading("#2", text = "Fecha Fin")
-		self.__dbGrid.column("#3", width = 250)
-		self.__dbGrid.heading("#3", text = "Horarios")
-		self.__dbGrid.column("#4", width = 250)
-		self.__dbGrid.heading("#4", text = "Locación")
-		self.__dbGrid.column("#5", width = 200)
-		self.__dbGrid.heading("#5", text = "Estado")
+		self.__courseMenu = tk.Menu(self._mainMenu, tearoff = 0)
+		self.__courseMenu.add_command(label = "Alta de curso", command = self.createCourse)
+		self.__courseMenu.add_command(label = "Modificar curso")
+		self.__courseMenu.add_separator()
+		self.__courseMenu.add_command(label = "Baja de curso")
+		self._mainMenu.add_cascade(label = "Cursos", menu = self.__courseMenu)
+		
+	def updateGrid(self):
+		self.getData()
+		
+		if self._items != None:
+			for course in self._items:
+				self._dbGrid.insert('', 'end', text = course["course_id"], values=(course["begin_date"], \
+				  course["end_date"], course["schedule"], course["location"], course["status"]))
+	
+	def createCourse(self):
+		setup = {"title":"Alta de Curso", "geometry":"400x500", "icon":"./img/curso.png"}
+		fields = {"Comisión":45, "Fecha Inicio":45, "Fecha Fin":45, "Horarios":45, "Locación":45, "Estado":45}
+		
+		createCourseForm = bfaform.EditForm(self, setup, fields, "add")
+		createCourseForm.toDropDown("Locación", ["Velodromo", "Fundacion Pupi", "Nido Chingolo"], "Velodromo")
+		
+		createCourseForm.setEntryValue("Estado", "INSCRIBIENDO ALUMNOS")
+		
+		createCourseForm.disableEntry({"Fecha Fin", "Estado"})
+		
+		createCourseForm.setFocus("Comisión")
