@@ -8,8 +8,9 @@ public class RestServer {
 		Server server = new Server(8080);
 		
 		ServletHandler handler = new ServletHandler();
-		handler.addServletWithMapping(TestServlet.class, "/*");
-		handler.addServletWithMapping(TestServlet2.class, "/test2/*");
+		handler.addServletWithMapping(TestServlet.class, "/");
+		handler.addServletWithMapping(TestServlet2.class, "/test2/");
+		handler.addServletWithMapping(LoginServlet.class, "/login/");
 		server.setHandler(handler);
 		
 		server.start();
